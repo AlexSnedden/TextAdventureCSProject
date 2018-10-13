@@ -1,0 +1,274 @@
+{
+  "initial opening": "You are in a small, dark room you have never seen before. The walls are black and made of concrete. The only opening is a large metal door in front of you.\nYou get up and rub your eyes.",
+  "initial state": "IN_ROOM",
+  "states": [
+    {
+      "ID":"IN_ROOM",
+      "display":"You can see a small cardboard box to your left on the ground..",
+      "agent updates": []
+    },
+    {
+      "ID":"OPEN_BOX",
+      "display": "You have opened the box.",
+      "agent updates": []
+    },
+    {
+      "ID": "TOOK_KEY",
+      "display":"You have taken the key.",
+      "agent updates": [{"hasKey":true}]
+    },
+    {
+      "ID": "LEFT_ROOM",
+      "display": "You have left the room.",
+      "agent updates": []
+    },
+    {
+        "ID": "TRYING_LOCKED_DOOR",
+        "display": "The door is locked and won't budge. It is too strong to try and bust open",
+        "agent updates": []
+    },
+    {
+        "ID": "IN_HALLWAY",
+        "display": "You find yourself in a hallway. The only light you see is the flickering lightbulb that reveals three other doors.\nThe rest of the lights seem to be broken, shielding the true length of the hallway from your knowledge.\nThe walls are all concrete, and the doors are wooden.\nYou hear hushed whispers occasionally within the darkness of the hallway.",
+        "agent updates": []
+    },
+    {
+        "ID": "IN_ROOM1",
+        "display": "You are in room 1. Inside is a desk with a drawer. Atop the desk is a piece of paper and a pen.\nThere is one window, but it is completely boarded up.\nThe paper contains the words\n\n\"Only he who appeases heXOR, the god of uncreative and mediocre text games, may escape.\"\n\n",
+        "agent updates": []
+    },
+    {
+        "ID": "IN_ROOM2",
+        "display": "You are in room 2. The room is empty, except for the SKELETON IN THE CORNER!!!",
+        "agent updates": []
+    },
+    {
+        "ID": "IN_ROOM3",
+        "display": "You are in room 3. The room is entirely empty... Except for the suspiciously placed box of batteries on the floor...",
+        "agent updates": []
+    },
+    {
+        "ID": "TOOK_BATTERIES",
+        "display": "You have taken the batteries.",
+        "agent updates": [{"hasBatteries":true}]
+    },
+    {
+        "ID": "INVESTIGATING_ROOM2_SKELETON",
+        "display": "You are investigating the skeleton. You look into it's deep eye sockets as they give you chills... Was it somebody who couldn't escape this place before you?!",
+        "agent updates": []
+    },
+    {
+        "ID": "TOOK_FLASHLIGHT",
+        "display": "The flashlight is yours",
+        "agent updates": [{"hasFlashlight": true}]
+    },
+    {
+        "ID": "LOADED_FLASHLIGHT",
+        "display": "Your flashlight now contains charged batteries",
+        "agent updates": [{"chargedFlashlight": true}]
+    },
+    {
+        "ID": "ILLUMINATING_HALLWAY",
+        "display": "The hallway is illuminated! You are horrified to see a massive beast down the hall! The abomination is best described as some kind of a cross between a lobster and a gorilla!\n\"Well well...\" it says. \"You have finally beat my shockingly uncreative spooky scavenger hunt! Mwahahahaha\"\nFear settles over you as you realize you are in a text adventure game and are speaking to heXOR himself!.\n\"If I was less hungry, I would reward you with freedom, but instead, I will give you the freedom... to be... IN MY BELLY!\"\nheXOR uses his claws to grab you and crush your abdomen. You lose consciousness as he begins to slurp you up in his mouth...",
+        "agent updates": []
+    }
+
+  ],
+  "inputs":[
+    {
+      "ID": "OPEN_BOX",
+      "display": "open the box",
+      "new state ID": "OPEN_BOX",
+      "affected states": [
+        {"state": "IN_ROOM",
+          "conditions":{}}
+      ]
+    },
+    {
+      "ID": "CLOSE_BOX",
+      "display": "close the box",
+      "new state ID": "IN_ROOM",
+      "affected states": [
+        {"state": "OPEN_BOX",
+         "conditions":{}},
+        {"state": "TOOK_KEY",
+         "conditions":{}}
+      ]
+    },
+    {
+      "ID": "TAKE_KEY",
+      "display": "Inside there is a key. Take the key",
+      "new state ID": "TOOK_KEY",
+      "affected states": [
+        {
+          "state": "OPEN_BOX",
+          "conditions":{"hasKey":false}
+        }
+      ]
+    },
+    {
+      "ID": "TRY_LOCKED_DOOR",
+      "display":"open the door and leave.",
+      "loop around": true,
+      "loop around display": "The door will not budge.",
+      "affected states": [
+          {
+           "state": "IN_ROOM",
+           "conditions":{"hasKey":false}
+          }
+      ]
+    },
+    {
+      "ID": "LEAVE_ROOM",
+      "display": "open the door with the key and leave the room.",
+      "new state ID": "IN_HALLWAY",
+      "affected states": [
+        {
+          "state": "IN_ROOM",
+          "conditions":{"hasKey":true}
+        }
+      ]
+    },
+    {
+      "ID": "ENTER_HALLWAY_ROOM1",
+      "display": "enter room #1",
+      "new state ID": "IN_ROOM1",
+      "affected states": [
+          {
+              "state": "IN_HALLWAY",
+              "conditions":{}
+          }
+      ]
+   },
+
+   {
+       "ID": "ENTER_HALLWAY_ROOM2",
+       "display": "enter room #2",
+       "new state ID": "IN_ROOM2",
+       "affected states": [
+           {
+               "state": "IN_HALLWAY",
+               "conditions": {"hasInvestigatedSkeleton": false}
+           }
+       ]
+   },
+   {
+       "ID": "ENTER_HALLWAY_ROOM3",
+       "display": "enter room #3",
+       "new state ID": "IN_ROOM3",
+       "affected states": [
+           {
+               "state": "IN_HALLWAY",
+               "conditions": {}
+           }
+       ]
+   },
+   {
+       "ID": "INVESTIGATE_ROOM2_SKELETON",
+       "display": "investigate the skeleton more closely",
+       "new state ID": "INVESTIGATING_ROOM2_SKELETON",
+       "affected states": [
+           {
+               "state": "IN_ROOM2",
+               "conditions":{"hasFlashlight":false}
+           }
+       ]
+   },
+   {
+     "ID": "TAKE_FLASHLIGHT",
+     "display": "take the skeleton's flashlight",
+     "new state ID": "TOOK_FLASHLIGHT",
+     "affected states": [
+         {
+             "state": "INVESTIGATING_ROOM2_SKELETON",
+             "conditions": {"hasFlashlight":false}
+         }
+     ]
+
+   },
+   {
+       "ID":"TURN_ON_FLASHLIGHT_WITHOUT_BATTERIES",
+       "display": "turn on the flashlight to illuminate the rest of the hallway.",
+       "loop around": true,
+       "loop around display": "The flashlight seems to have dead batteries",
+       "affected states": [
+           {
+               "state": "IN_HALLWAY",
+               "conditions": {"chargedFlashlight": true}
+           }
+       ]
+   },
+   {
+       "ID": "TURN_ON_FLASHLIGHT",
+       "display": "turn on the flashlight to illuminate the rest of the hallway",
+       "new state ID": "ILLUMINATING_HALLWAY",
+       "affected states": [
+           {
+               "state": "IN_HALLWAY",
+               "conditions": {"chargedFlashlight": true}
+           },
+           {
+               "state": "LOADED_FLASHLIGHT",
+               "conditions": {}
+           }
+       ]
+   },
+   {
+       "ID": "LOAD_FLASHLIGHT_WITH_BATTERIES",
+       "display": "load the batteries into your flashlight",
+       "new state ID": "LOADED_FLASHLIGHT",
+       "affected states": [
+           {
+               "state": "IN_HALLWAY",
+               "conditions": {
+                   "hasBatteries":true, "hasFlashlight": true
+               }
+           }
+       ]
+   },
+   {
+     "ID": "TAKE_BATTERIES",
+     "display": "take some batteries",
+     "new state ID": "TOOK_BATTERIES",
+     "affected states": [
+         {
+             "state": "IN_ROOM3",
+             "conditions": {
+                 "hasBatteries": false
+             }
+         }
+     ]
+   },
+   {
+     "ID": "RETURN_TO_HALLWAY",
+     "display": "go back to the hallway",
+     "new state ID": "IN_HALLWAY",
+     "affected states": [
+             {
+                 "state":"IN_ROOM1",
+                 "conditions":{}
+             },
+             {
+                 "state": "TOOK_FLASHLIGHT",
+                 "conditions":{}
+             },
+             {
+                "state": "TOOK_BATTERIES",
+                "conditions":{}
+             },
+             {
+                 "state": "INVESTIGATING_ROOM2_SKELETON",
+                 "conditions":{}
+             },
+             {
+                 "state": "IN_ROOM2",
+                 "conditions":{}
+             },
+             {
+                 "state": "IN_ROOM3",
+                 "conditions":{}
+             }
+     ]
+   }
+  ]
+}
