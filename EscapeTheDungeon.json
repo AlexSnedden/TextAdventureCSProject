@@ -1,0 +1,86 @@
+{
+  "initial state": "IN_ROOM",
+  "states": [
+    {
+      "ID":"IN_ROOM",
+      "display":"You are in a small, dark room you have never seen before. The walls are black and made of concrete. The only opening is a large metal door in front of you.\n You get up and rub your eyes. You can see a small cardboard box to your left on the ground..",
+      "agent updates": []
+    },
+    {
+      "ID":"OPEN_BOX",
+      "display": "You have opened the box.",
+      "agent updates": []
+    },
+    {
+      "ID": "TOOK_KEY",
+      "display":"You have taken the key.",
+      "agent updates": [{"hasKey":true}]
+    },
+    {
+      "ID": "LEFT_ROOM",
+      "display": "You have left the room.",
+      "agent updates": []
+    },
+    {
+        "ID": "TRYING_LOCKED_DOOR",
+        "display": "The door is locked and won't budge. It is too strong to try and bust open",
+        "agent updates": []
+    }
+  ],
+  "inputs":[
+    {
+      "ID": "OPEN_BOX",
+      "display": "open the box",
+      "new state ID": "OPEN_BOX",
+      "affected states": [
+        {"state": "IN_ROOM",
+          "conditions":{}}
+      ]
+    },
+    {
+      "ID": "CLOSE_BOX",
+      "display": "close the box",
+      "new state ID": "IN_ROOM",
+      "affected states": [
+        {"state": "OPEN_BOX",
+         "conditions":{}},
+        {"state": "TOOK_KEY",
+         "conditions":{}}
+      ]
+    },
+    {
+      "ID": "TAKE_KEY",
+      "display": "Inside there is a key. Take the key",
+      "new state ID": "TOOK_KEY",
+      "affected states": [
+        {
+          "state": "OPEN_BOX",
+          "conditions":{"hasKey":false}
+        }
+      ]
+    },
+    {
+      "ID": "TRY_LOCKED_DOOR",
+      "display":"open the door and leave.",
+      "loop around": true,
+      "loop around display": "The door will not budge.",
+      "affected states": [
+          {
+           "state": "IN_ROOM",
+           "conditions":{"hasKey":false}
+          }
+      ]
+    },
+    {
+      "ID": "LEAVE_ROOM",
+      "display": "open the door with the key and leave the room.",
+      "new state ID": "LEFT_ROOM",
+      "affected states": [
+        {
+          "state": "IN_ROOM",
+          "conditions":{"hasKey":true}
+        }
+      ]
+    }
+  ]
+}
